@@ -7,6 +7,7 @@ variable "region" {
 variable "namespace" {
   description = "The project namespace to use for unique resource naming"
   type        = string
+  default     = null
 }
 
 variable "ssh_keypair" {
