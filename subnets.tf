@@ -56,7 +56,7 @@ cidr_block   = "172.16.6.0/24"
 availability_zone      = "us-east-1c"
  
  tags = {
-   Name = "Private subnet - AppB"
+   Name = "Private subnet - AppC"
  }
 }
 
