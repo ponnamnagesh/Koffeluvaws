@@ -1,5 +1,5 @@
 module "network" {
   source    = "./modules/network"
-  #namespace = var.namespace
+  namespace = var.namespace
   region = var.region
 }
