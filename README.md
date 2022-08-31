@@ -19,3 +19,5 @@ Enable DNS hostnames for the VPC that you are building.
 Map public IP addresses on launch for all subnets that are marked public.
 
 Display the VPC ID as the output of applying the changes to the infrastructure.
+
+![alt text](http://url/to/img.png)
