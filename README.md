@@ -20,4 +20,4 @@ Map public IP addresses on launch for all subnets that are marked public.
 
 Display the VPC ID as the output of applying the changes to the infrastructure.
 
-![alt text]([http://url/to/img.png](https://github.com/ponnamnagesh/Koffeluvaws/blob/master/networklayout.png))
+![alt text](https://github.com/ponnamnagesh/Koffeluvaws/blob/master/networklayout.png)]
