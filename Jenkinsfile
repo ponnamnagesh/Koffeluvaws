@@ -3,11 +3,6 @@ pipeline {
     agent any
     
     stages {
-        //stage ('s3 - create bucket') {
-          //  steps {
-               // sh ('ansible-playbook s3-bucket.yml')
-             //}
-       //}
         stage('Checkout') {
             steps {
             checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/ponnamnagesh/Koffeluvaws.git']]])            
@@ -29,8 +24,6 @@ pipeline {
             steps {
                 echo "Terraform action is --> ${action}"
                 sh ('terraform ${action} --auto-approve') 
-                //sh ('terraform apply --auto-approve') 
-                //sh ('terraform destroy --auto-approve')
            }
         }
     }

@@ -33,21 +33,32 @@ resource "aws_eip" "eip-for-nat-gateway-3" {
 # terraform create aws nat gateway
 resource "aws_nat_gateway" "nat-gateway-1" {
   allocation_id = aws_eip.eip-for-nat-gateway-1.id
-  subnet_id     = 
+  subnet_id     = aws_subnet.publicA.id
 
   tags   = {
-    Name = 
+    Name = "NAT gateway public subnetA"
   }
 }
 
 # Create Nat Gateway 2 in Public Subnet 2
 # terraform create aws nat gateway
 resource "aws_nat_gateway" "nat-gateway-2" {
-  allocation_id = 
-  subnet_id     = 
+  allocation_id = aws_eip.eip-for-nat-gateway-2.id
+  subnet_id     = aws_subnet.publicB.id
 
   tags   = {
-    Name = 
+    Name = "NAT gateway public subnetB"
+  }
+}
+
+# Create Nat Gateway 3 in Public Subnet 3
+# terraform create aws nat gateway
+resource "aws_nat_gateway" "nat-gateway-3" {
+  allocation_id = aws_eip.eip-for-nat-gateway-3.id
+  subnet_id     = aws_subnet.publicC.id
+
+  tags   = {
+    Name = "NAT gateway public subnetC"
   }
 }
 
