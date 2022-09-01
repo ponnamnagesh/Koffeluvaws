@@ -80,42 +80,42 @@ resource "aws_route_table" "private-route-table-A" {
 # Associate Private Subnet A with "Private Route Table A"
 # terraform aws associate subnet with route table
 resource "aws_route_table_association" "private-subnet-1-route-table-association" {
-  subnet_id         = 
-  route_table_id    = 
+  subnet_id         = aws_subnet.publicA.id
+  route_table_id    = aws_route_table.private-route-table-A.id
 }
 
 # Associate Private Subnet 3 with "Private Route Table 1"
 # terraform aws associate subnet with route table
-resource "aws_route_table_association" "private-subnet-3-route-table-association" {
-  subnet_id         = 
-  route_table_id    = 
-}
+#resource "aws_route_table_association" "private-subnet-3-route-table-association" {
+ # subnet_id         = 
+ # route_table_id    = 
+#}
 
-# Create Private Route Table 2 and Add Route Through Nat Gateway 2
+# Create Private Route Table B and Add Route Through Nat Gateway B
 # terraform aws create route table
-resource "aws_route_table" "private-route-table-2" {
-  vpc_id            = 
+resource "aws_route_table" "private-route-table-B" {
+  vpc_id            = aws_vpc.main.id
 
   route {
-    cidr_block      = 
-    nat_gateway_id  = 
+    cidr_block      = "0.0.0.0/0"
+    nat_gateway_id  = aws_nat_gateway.nat-gateway-B.id
   }
 
   tags   = {
-    Name =
+    Name = "Private route table B"
   }
 }
 
-# Associate Private Subnet 2 with "Private Route Table 2"
+# Associate Private Subnet B with "Private Route Table B"
 # terraform aws associate subnet with route table
 resource "aws_route_table_association" "private-subnet-2-route-table-association" {
-  subnet_id         = 
-  route_table_id    = 
+  subnet_id         = aws_subnet.publicB.id
+  route_table_id    = aws_route_table.private-route-table-A.id
 }
 
 # Associate Private Subnet 4 with "Private Route Table 2"
 # terraform aws associate subnet with route table
-resource "aws_route_table_association" "private-subnet-4-route-table-association" {
-  subnet_id         = 
-  route_table_id    =
-}
+#resource "aws_route_table_association" "private-subnet-4-route-table-association" {
+  #subnet_id         = 
+  #route_table_id    =
+#}
