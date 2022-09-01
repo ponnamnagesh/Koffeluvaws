@@ -21,3 +21,25 @@ Map public IP addresses on launch for all subnets that are marked public.
 Display the VPC ID as the output of applying the changes to the infrastructure.
 
 ![alt text](https://github.com/ponnamnagesh/Koffeluvaws/blob/master/networklayout.png)]
+
+
+#Routing and Gateways
+
+Create three Elastic IPs (EIPs).
+
+Create three NAT gateways and associate the Elastic IPs with them.
+
+Create three private routes so there is one for each availability zone.
+
+Associate each private route with the respective NAT gateway.
+
+Associate the app and DB layer subnet to each private route.
+
+Associate the public subnets to the public route.
+
+Create an internet gateway.
+
+Attach the internet gateway to the VPC that you created earlier.
+
+Associate the public route with the internet gateway.
+
