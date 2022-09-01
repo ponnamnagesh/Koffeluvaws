@@ -1,38 +1,38 @@
-# Allocate Elastic IP Address (EIP 1)
+# Allocate Elastic IP Address (EIP A)
 # terraform aws allocate elastic ip
-resource "aws_eip" "eip-for-nat-gateway-1" {
+resource "aws_eip" "eip-for-nat-gateway-A" {
   vpc    = true
 
   tags   = {
-    Name = "EIP 1"
+    Name = "EIP A"
   }
 }
 
-# Allocate Elastic IP Address (EIP 2)
+# Allocate Elastic IP Address (EIP B)
 # terraform aws allocate elastic ip
-resource "aws_eip" "eip-for-nat-gateway-2" {
+resource "aws_eip" "eip-for-nat-gateway-B" {
   vpc    = true
 
   tags   = {
-    Name = "EIP 2"
+    Name = "EIP B"
   }
 }
 
-# Allocate Elastic IP Address (EIP 3)
+# Allocate Elastic IP Address (EIP C)
 # terraform aws allocate elastic ip
-resource "aws_eip" "eip-for-nat-gateway-3" {
+resource "aws_eip" "eip-for-nat-gateway-C" {
   vpc    = true
 
   tags   = {
-    Name = "EIP 3"
+    Name = "EIP C"
   }
 }
 
 
-# Create Nat Gateway 1 in Public Subnet 1
+# Create Nat Gateway A in Public Subnet A
 # terraform create aws nat gateway
-resource "aws_nat_gateway" "nat-gateway-1" {
-  allocation_id = aws_eip.eip-for-nat-gateway-1.id
+resource "aws_nat_gateway" "nat-gateway-A" {
+  allocation_id = aws_eip.eip-for-nat-gateway-A.id
   subnet_id     = aws_subnet.publicA.id
 
   tags   = {
@@ -40,10 +40,10 @@ resource "aws_nat_gateway" "nat-gateway-1" {
   }
 }
 
-# Create Nat Gateway 2 in Public Subnet 2
+# Create Nat Gateway B in Public Subnet B
 # terraform create aws nat gateway
-resource "aws_nat_gateway" "nat-gateway-2" {
-  allocation_id = aws_eip.eip-for-nat-gateway-2.id
+resource "aws_nat_gateway" "nat-gateway-B" {
+  allocation_id = aws_eip.eip-for-nat-gateway-B.id
   subnet_id     = aws_subnet.publicB.id
 
   tags   = {
@@ -51,10 +51,10 @@ resource "aws_nat_gateway" "nat-gateway-2" {
   }
 }
 
-# Create Nat Gateway 3 in Public Subnet 3
+# Create Nat Gateway C in Public Subnet C
 # terraform create aws nat gateway
 resource "aws_nat_gateway" "nat-gateway-3" {
-  allocation_id = aws_eip.eip-for-nat-gateway-3.id
+  allocation_id = aws_eip.eip-for-nat-gateway-C.id
   subnet_id     = aws_subnet.publicC.id
 
   tags   = {
@@ -62,22 +62,22 @@ resource "aws_nat_gateway" "nat-gateway-3" {
   }
 }
 
-# Create Private Route Table 1 and Add Route Through Nat Gateway 1
+# Create Private Route Table A and Add Route Through Nat Gateway A
 # terraform aws create route table
-resource "aws_route_table" "private-route-table-1" {
-  vpc_id            = 
+resource "aws_route_table" "private-route-table-A" {
+  vpc_id            = aws_vpc.main.id
 
   route {
-    cidr_block      = 
-    nat_gateway_id  = 
+    cidr_block      = "0.0.0.0/0"
+    nat_gateway_id  = aws_nat_gateway.nat-gateway-A.id
   }
 
   tags   = {
-    Name = 
+    Name = "Private route table A"
   }
 }
 
-# Associate Private Subnet 1 with "Private Route Table 1"
+# Associate Private Subnet A with "Private Route Table A"
 # terraform aws associate subnet with route table
 resource "aws_route_table_association" "private-subnet-1-route-table-association" {
   subnet_id         = 
