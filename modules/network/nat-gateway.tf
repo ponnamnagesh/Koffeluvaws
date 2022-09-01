@@ -53,7 +53,7 @@ resource "aws_nat_gateway" "nat-gateway-B" {
 
 # Create Nat Gateway C in Public Subnet C
 # terraform create aws nat gateway
-resource "aws_nat_gateway" "nat-gateway-3" {
+resource "aws_nat_gateway" "nat-gateway-C" {
   allocation_id = aws_eip.eip-for-nat-gateway-C.id
   subnet_id     = aws_subnet.publicC.id
 
