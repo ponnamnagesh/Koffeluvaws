@@ -77,19 +77,26 @@ resource "aws_route_table" "private-route-table-A" {
   }
 }
 
-# Associate Private Subnet A with "Private Route Table A"
+# Associate Public Subnet A with "Private Route Table A"
 # terraform aws associate subnet with route table
 resource "aws_route_table_association" "private-subnet-A-route-table-association" {
   subnet_id         = aws_subnet.publicA.id
   route_table_id    = aws_route_table.private-route-table-A.id
 }
 
-# Associate Private Subnet 3 with "Private Route Table 1"
+# Associate AppA with "Private Route Table A"
 # terraform aws associate subnet with route table
-#resource "aws_route_table_association" "private-subnet-3-route-table-association" {
- # subnet_id         = 
- # route_table_id    = 
-#}
+resource "aws_route_table_association" "myprivaterouteA-with-AppA" {
+ subnet_id         = aws_subnet.appA.id
+ route_table_id    = aws_route_table.private-route-table-A.id
+}
+
+# Associate DbA with "Private Route Table A"
+# terraform aws associate subnet with route table
+resource "aws_route_table_association" "myprivaterouteA-with-DbA" {
+ subnet_id         = aws_subnet.DbA.id
+ route_table_id    = aws_route_table.private-route-table-A.id
+}
 
 # Create Private Route Table B and Add Route Through Nat Gateway B
 # terraform aws create route table
@@ -106,19 +113,27 @@ resource "aws_route_table" "private-route-table-B" {
   }
 }
 
-# Associate Private Subnet B with "Private Route Table B"
+# Associate Public Subnet B with "Private Route Table B"
 # terraform aws associate subnet with route table
 resource "aws_route_table_association" "private-subnet-B-route-table-association" {
   subnet_id         = aws_subnet.publicB.id
   route_table_id    = aws_route_table.private-route-table-B.id
 }
 
-# Associate Private Subnet 4 with "Private Route Table 2"
+# Associate AppB with "Private Route Table B"
 # terraform aws associate subnet with route table
-#resource "aws_route_table_association" "private-subnet-4-route-table-association" {
-  #subnet_id         = 
-  #route_table_id    =
-#}
+resource "aws_route_table_association" "myprivaterouteB-with-AppB" {
+ subnet_id         = aws_subnet.appB.id
+ route_table_id    = aws_route_table.private-route-table-B.id
+}
+
+# Associate DbB with "Private Route Table B"
+# terraform aws associate subnet with route table
+resource "aws_route_table_association" "myprivaterouteB-with-DbB" {
+ subnet_id         = aws_subnet.DbB.id
+ route_table_id    = aws_route_table.private-route-table-B.id
+}
+
 # Create Private Route Table C and Add Route Through Nat Gateway C
 # terraform aws create route table
 resource "aws_route_table" "private-route-table-C" {
@@ -134,16 +149,23 @@ resource "aws_route_table" "private-route-table-C" {
   }
 }
 
-# Associate Private Subnet C with "Private Route Table C"
+# Associate Public Subnet C with "Private Route Table C"
 # terraform aws associate subnet with route table
 resource "aws_route_table_association" "private-subnet-C-route-table-association" {
   subnet_id         = aws_subnet.publicC.id
   route_table_id    = aws_route_table.private-route-table-C.id
 }
 
-# Associate Private Subnet 4 with "Private Route Table 2"
+# Associate AppC with "Private Route Table C"
 # terraform aws associate subnet with route table
-#resource "aws_route_table_association" "private-subnet-4-route-table-association" {
-  #subnet_id         = 
-  #route_table_id    =
-#}
+resource "aws_route_table_association" "myprivaterouteC-with-AppC" {
+ subnet_id         = aws_subnet.appC.id
+ route_table_id    = aws_route_table.private-route-table-C.id
+}
+
+# Associate DbC with "Private Route Table C"
+# terraform aws associate subnet with route table
+resource "aws_route_table_association" "myprivaterouteC-with-DbC" {
+ subnet_id         = aws_subnet.DbC.id
+ route_table_id    = aws_route_table.private-route-table-C.id
+}
