@@ -5,6 +5,7 @@ MAINTAINER pjlionel@gmail.com
 RUN 	 apt-get update && \
 	     apt-get install -y && \
          apt-get install -y python-pip && \
+	 apt-get install --upgrade pip && \
          pip install flask
 
 COPY . /src
