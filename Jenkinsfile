@@ -31,7 +31,7 @@ pipeline {
         script {
           //dockerImage = docker.build registry 
           //sh 'cd /home/jenkins/workspace/Live_Kof_Dev/modules/app'
-          sh 'docker build -t ecs-koffee-luv-home .'
+          sh 'docker build -t ecs-koffee-luv-home modules/app .'
           sh 'docker tag ecs-koffee-luv-home:latest 004738182300.dkr.ecr.us-east-2.amazonaws.com/ecs-koffee-luv-home:latest'
         
         }
