@@ -6,7 +6,7 @@ module "network" {
 
 module "security" {
     source = "./modules/security"
-    vpc_id = module.modules.network.vpc_id
+    vpc_id = module.network.vpc_id
     region           = var.region
     project_name     = var.project_name
 }
