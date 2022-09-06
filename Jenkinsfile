@@ -31,8 +31,8 @@ pipeline {
                 script {
                     dir('./modules/app') {
                         //  Building new image
-                        sh 'sudo docker image build -t ecs-koffee-luv-home:latest .'
-                        sh 'sudo aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 004738182300.dkr.ecr.us-east-2.amazonaws.com'
+                        sh 'docker image build -t ecs-koffee-luv-home:latest .'
+                        sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 004738182300.dkr.ecr.us-east-2.amazonaws.com'
                         //sh 'docker build -t ecs-koffee-luv-home .'
                         //sh 'docker tag latest:$BUILD_NUMBER'
                         //sh 'docker tag latest[:$BUILD_NUMBER]'
