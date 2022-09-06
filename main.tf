@@ -15,9 +15,9 @@ module "compute" {
     source           = "./modules/compute"
     region           = var.region
     project_name     = var.project_name
-    PublicSubnet_IDs = module.modules.network.PublicSubnet_IDs
-    AppSubnet_IDs    = module.modules.network.AppSubnet_IDs
+    PublicSubnet_IDs = module.network.PublicSubnet_IDs
+    AppSubnet_IDs    = module.network.AppSubnet_IDs
     key_name         = var.key_name
-    BastionSG        = module.modules.security.BastionSG
-    AppSG            = module.modules.security.AppSG
+    BastionSG        = module.security.BastionSG
+    AppSG            = module.security.AppSG
 }
