@@ -30,8 +30,10 @@ pipeline {
       steps{
         script {
           //dockerImage = docker.build registry 
+          sh 'cd modules/app'
           sh 'docker build -t ecs-koffee-luv-home .'
           sh 'docker tag ecs-koffee-luv-home:latest 004738182300.dkr.ecr.us-east-2.amazonaws.com/ecs-koffee-luv-home:latest'
+        
         }
       }
     }
