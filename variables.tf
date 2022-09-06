@@ -13,4 +13,5 @@ variable "region" {
 variable "key_name" {
   type        = string
   description = "KeyName for precreated SSH Key in AWS"
+  default     = "kluvdev"
 }
