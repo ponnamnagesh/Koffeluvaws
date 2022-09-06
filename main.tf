@@ -1,18 +1,18 @@
 module "network" {
-    source = ".modules/network"
+    source = "./modules/network"
     region = var.region
     project_name = var.project_name
 }
 
 module "security" {
-    source = ".modules/security"
+    source = "./modules/security"
     vpc_id = module.modules.network.vpc_id
     region           = var.region
     project_name     = var.project_name
 }
 
 module "compute" {
-    source           = ".modules/compute"
+    source           = "./modules/compute"
     region           = var.region
     project_name     = var.project_name
     PublicSubnet_IDs = module.modules.network.PublicSubnet_IDs
