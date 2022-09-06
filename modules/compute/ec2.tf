@@ -24,3 +24,5 @@ filter {
     name   = "architecture"
     values = ["x86_64"]
   }
+
+}
