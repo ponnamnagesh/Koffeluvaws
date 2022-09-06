@@ -25,5 +25,25 @@ pipeline {
                 sh ('terraform ${action} --auto-approve') 
            }
         }
+    // Building Docker images
+    stage('Building image') {
+      steps{
+        script {
+          //dockerImage = docker.build registry 
+          sh 'docker build -t ecs-koffee-luv-home .'
+          sh 'docker tag ecs-koffee-luv-home:latest 004738182300.dkr.ecr.us-east-2.amazonaws.com/ecs-koffee-luv-home:latest'
+        }
+      }
+    }
+   
+    // Uploading Docker images into AWS ECR
+    stage('Pushing to ECR') {
+     steps{  
+         script {
+                sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 004738182300.dkr.ecr.us-east-2.amazonaws.com'
+                sh 'docker push 004738182300.dkr.ecr.us-east-2.amazonaws.com/ecs-koffee-luv-home:latest'
+         }
+        }
+      }
     }
 }
