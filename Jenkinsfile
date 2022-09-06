@@ -29,6 +29,9 @@ pipeline {
     stage ('Building New Docker Image') {
             steps {
                 script {
+                    input message: 'Proceed?', ok: 'Yes', submitter: 'admin'
+                }
+                script {
                     dir('./modules/app') {
                         //  Building new image
                         sh 'docker image build -t ecs-koffee-luv-home:latest .'
@@ -40,16 +43,29 @@ pipeline {
                         echo "Image successfully built"
                     }
                 }
+                post {
+                aborted{
+                    echo "stage has been aborted"
+                }
+                }
             }
         }
    
     // Uploading Docker images into AWS ECR
     stage('Pushing to ECR') {
      steps{  
+        script {
+                    input message: 'Proceed?', ok: 'Yes', submitter: 'admin'
+                }
          script {
                 sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 004738182300.dkr.ecr.us-east-2.amazonaws.com'
                 sh 'docker push 004738182300.dkr.ecr.us-east-2.amazonaws.com/ecs-koffee-luv-home:latest'
          }
+         post {
+                aborted{
+                    echo "stage has been aborted"
+                }
+            }    
         }
       }
     }
