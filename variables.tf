@@ -1,17 +1,16 @@
+variable "project_name" {
+  type        = string
+  default     = "liveproject_TAWS"
+  description = "Name for the live_project"
+}
+
 variable "region" {
-  description = "AWS region"
+  type        = string
   default     = "us-east-1"
-  type        = string
+  description = "Region to deploy the Stack in"
 }
 
-variable "namespace" {
-  description = "The project namespace to use for unique resource naming"
+variable "key_name" {
   type        = string
-  default     = null
-}
-
-variable "ssh_keypair" {
-  description = "SSH keypair to use for EC2 instance"
-  default     = null
-  type        = string
+  description = "KeyName for precreated SSH Key in AWS"
 }
