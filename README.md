@@ -45,3 +45,25 @@ Attach the internet gateway to the VPC that you created earlier.
 
 Associate the public route with the internet gateway.
 
+
+
+Create modules to represent compute and security.
+
+Create an AMI based on a free tier instance type.
+
+Create a key pair to be used with the EC2 instances. Use PEM format for Linux or Mac machines and PPK for Windows.
+
+Create three EC2 instances based on the AMI that you built in step 2.
+
+Create three bastion hosts using the same AMI.
+
+Allow only port 22 access to the bastion hosts.
+
+Allow only bastions to gain access to the private app instances.
+
+To test connectivity, first input SSH into the public bastion host. Run the command ping 1.1.1.1. You should get a response, proving the internet gateway setup is working.
+
+Now SSH to an app layer instance within the same availability zone. Run the command ping 1.1.1.1. A positive response will show that the NAT gateway is working well. Now you can run the command sudo yum update for OS updates.
+
+
+
