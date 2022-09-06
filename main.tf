@@ -21,3 +21,6 @@ module "compute" {
     BastionSG        = module.security.BastionSG
     AppSG            = module.security.AppSG
 }
+module "containers" {
+    source          = "./modules/containers"
+}
