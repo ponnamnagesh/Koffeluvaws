@@ -55,11 +55,6 @@ pipeline {
                         echo "Image successfully built"
                     }
                 }
-                post {
-                aborted{
-                    echo "stage has been aborted"
-                }
-                }
             }
         }
    
