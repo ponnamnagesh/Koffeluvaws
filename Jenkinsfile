@@ -25,6 +25,11 @@ pipeline {
                 sh ('terraform ${action} --auto-approve') 
            }
         }
+        stage ('Build') {
+          steps {
+            sh 'mvn clean install'           
+            }
+      }
     // Building Docker images
     stage ('Building New Docker Image') {
             steps {
