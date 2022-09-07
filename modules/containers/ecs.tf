@@ -64,7 +64,7 @@ resource "aws_launch_configuration" "ecs-launch-configuration" {
     }
 
     associate_public_ip_address = "false"
-    key_name = var.myLabKeyPair
+    key_name = var.key_name
 
     user_data = <<-EOF
         #!/bin/bash
@@ -78,7 +78,7 @@ resource "aws_launch_configuration" "ecs-launch-configuration" {
 resource "aws_security_group" "EcsSG" {
     name        = "EcsSG"
     description = "Allow ssh"
-    vpc_id      = var.vpcId
+    vpc_id = module.network.vpc_id
     
     tags = {
         Name = "EcsSG"
