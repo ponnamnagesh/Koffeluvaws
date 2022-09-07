@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-            checkout([$class: 'GitSCM', branches: [[name: '*/dev']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/ponnamnagesh/Koffeluvaws.git']]])            
+            checkout([$class: 'GitSCM', branches: [[name: '*/QA']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/ponnamnagesh/Koffeluvaws.git']]])            
            
           }
         }    
