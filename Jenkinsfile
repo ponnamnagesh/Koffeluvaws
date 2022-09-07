@@ -69,11 +69,6 @@ pipeline {
                 //sh 'docker push 004738182300.dkr.ecr.us-east-2.amazonaws.com/ecs-koffee-luv-home:latest'
                 sh 'docker push 004738182300.dkr.ecr.us-east-1.amazonaws.com/ecs-koffee-luv-home:latest'
          }
-         post {
-                aborted{
-                    echo "stage has been aborted"
-                }
-            }    
         }
       }
     }
