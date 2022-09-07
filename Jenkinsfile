@@ -47,11 +47,11 @@ pipeline {
                     dir('./modules/app') {
                         //  Building new image
                         sh 'docker image build -t ecs-koffee-luv-home:latest .'
-                        sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 004738182300.dkr.ecr.us-east-2.amazonaws.com'
+                        sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 004738182300.dkr.ecr.us-east-1.amazonaws.com'
                         //sh 'docker build -t ecs-koffee-luv-home .'
                         //sh 'docker tag latest:$BUILD_NUMBER'
                         //sh 'docker tag latest[:$BUILD_NUMBER]'
-                        sh 'docker tag ecs-koffee-luv-home:latest 004738182300.dkr.ecr.us-east-2.amazonaws.com/ecs-koffee-luv-home:latest'
+                        sh 'docker tag ecs-koffee-luv-home:latest 004738182300.dkr.ecr.us-east-1.amazonaws.com/ecs-koffee-luv-home:latest'
                         echo "Image successfully built"
                     }
                 }
@@ -65,8 +65,9 @@ pipeline {
                     input message: 'Proceed?', ok: 'Yes', submitter: 'admin'
                 }
          script {
-                sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 004738182300.dkr.ecr.us-east-2.amazonaws.com'
-                sh 'docker push 004738182300.dkr.ecr.us-east-2.amazonaws.com/ecs-koffee-luv-home:latest'
+                sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 004738182300.dkr.ecr.us-east-1.amazonaws.com'
+                //sh 'docker push 004738182300.dkr.ecr.us-east-2.amazonaws.com/ecs-koffee-luv-home:latest'
+                sh 'docker push 004738182300.dkr.ecr.us-east-1.amazonaws.com/ecs-koffee-luv-home:latest'
          }
          post {
                 aborted{
