@@ -41,6 +41,7 @@ pipeline {
                 }
                 }
       }
+        }
     // Building Docker images
     stage ('Building New Docker Image') {
             steps {
