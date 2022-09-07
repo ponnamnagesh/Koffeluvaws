@@ -35,11 +35,6 @@ pipeline {
                         sh 'mvn clean install' 
                     }
                 }
-                post {
-                aborted{
-                    echo "stage has been aborted"
-                }
-                }
       }
         }
     // Building Docker images
