@@ -1,15 +1,4 @@
-FROM ubuntu:16.04
-
-MAINTAINER pjlionel@gmail.com
-
-RUN 	 apt-get update && \
-	     apt-get install -y && \
-         apt-get install -y python-pip && \
-	 apt-get install --upgrade pip && \
-         pip install flask
-
-COPY . /src
-
-EXPOSE 8080
-
-CMD cd /src && python home.py
+FROM lolhens/baseimage-openjre
+ADD target/springbootApp.jar springbootApp.jar
+EXPOSE 80
+ENTRYPOINT ["java", "-jar", "springbootApp.jar"]
