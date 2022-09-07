@@ -26,9 +26,20 @@ pipeline {
            }
         }
         stage ('Build') {
-          steps {
-            sh 'mvn clean install'           
-            }
+            steps {
+                script {
+                    input message: 'Proceed?', ok: 'Yes', submitter: 'admin'
+                }
+                script {
+                    dir('./modules/app') {
+                        sh 'mvn clean install' 
+                    }
+                }
+                post {
+                aborted{
+                    echo "stage has been aborted"
+                }
+                }
       }
     // Building Docker images
     stage ('Building New Docker Image') {
