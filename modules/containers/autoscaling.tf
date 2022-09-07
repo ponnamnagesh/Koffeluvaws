@@ -1,39 +1,16 @@
-resource "aws_appautoscaling_target" "ecs_target" {
-  max_capacity       = 3
-  min_capacity       = 1
-  resource_id        = "service/${aws_ecs_cluster.aws-ecs-cluster.name}/${aws_ecs_service.aws-ecs-service.name}"
-  scalable_dimension = "ecs:service:DesiredCount"
-  service_namespace  = "ecs"
-}
+resource "aws_autoscaling_group" "ecs-autoscaling-group" {
+    name = "ecs-autoscaling-group"
+    max_size = "3"
+    min_size = "1"
+    desired_capacity = "1"
 
-resource "aws_appautoscaling_policy" "ecs_policy_memory" {
-  name               = "${var.app_name}-${var.app_environment}-memory-autoscaling"
-  policy_type        = "TargetTrackingScaling"
-  resource_id        = aws_appautoscaling_target.ecs_target.resource_id
-  scalable_dimension = aws_appautoscaling_target.ecs_target.scalable_dimension
-  service_namespace  = aws_appautoscaling_target.ecs_target.service_namespace
+    vpc_zone_identifier = [var.appA, var.appB, var.appC]
+    launch_configuration = aws_launch_configuration.ecs-launch-configuration.name
+    health_check_type = "ELB"
 
-  target_tracking_scaling_policy_configuration {
-    predefined_metric_specification {
-      predefined_metric_type = "ECSServiceAverageMemoryUtilization"
+    tag {
+        key = "Name"
+        value = "Koffee-Luv-ECS"
+        propagate_at_launch = true
     }
-
-    target_value = 80
-  }
-}
-
-resource "aws_appautoscaling_policy" "ecs_policy_cpu" {
-  name               = "${var.app_name}-${var.app_environment}-cpu-autoscaling"
-  policy_type        = "TargetTrackingScaling"
-  resource_id        = aws_appautoscaling_target.ecs_target.resource_id
-  scalable_dimension = aws_appautoscaling_target.ecs_target.scalable_dimension
-  service_namespace  = aws_appautoscaling_target.ecs_target.service_namespace
-
-  target_tracking_scaling_policy_configuration {
-    predefined_metric_specification {
-      predefined_metric_type = "ECSServiceAverageCPUUtilization"
-    }
-
-    target_value = 80
-  }
 }

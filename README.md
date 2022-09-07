@@ -67,3 +67,33 @@ Now SSH to an app layer instance within the same availability zone. Run the comm
 
 
 
+Modify the Terraform script and add the following changes:
+
+Create a new module called “containers.”
+
+Create a new ECR repository.
+
+Now, under your main project folder, create an app directory and do the following:
+
+Using the SDK of your choice, create a sample website that runs on the context root /KoffeeLuv and content The Future Home of Koffee Luv.
+
+
+Test that the website is working from local.
+
+Dockerize the website using Docker commands.
+Note: If this is the first time you are using Docker, then remember that all you need to do is install it on your machine. Then, if you are unsure about the commands to use to create an image, visit the ECR dashboard. It has a “View Push Commands” button. All the commands you need are mentioned there. A simple copy and paste of those commands will help you build the image and complete the necessary steps for this milestone.
+
+Use Terraform to create the ECR repository.
+
+Create a new ECS cluster using Terraform.
+
+Create an autoscaling group with the desired capacity of one, a min size of one, and a max capacity of three.
+
+Create a data source to get the latest ECS AMI.
+
+Create a launch configuration with EC2s built off the AMI that was selected.
+
+Create an ecsInstanceRole service role.
+
+Create a security group with access to port 22 from the bastion security group.
+Note: If your load balancer is draining instances, use the article “How can I get my Amazon ECS tasks running using the Amazon EC2 launch type to pass the Application Load Balancer health check in Amazon ECS?” to troubleshoot your ECS cluster. The problem is most likely because the health check URL is unhealthy or the security group configuration is wrong at the ECR or the load balancer level.
