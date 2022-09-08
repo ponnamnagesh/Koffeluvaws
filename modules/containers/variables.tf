@@ -1,5 +1,6 @@
 variable "myLabKeyPair" {
     type = string
+    default = "myLabKeyPair"
 }
 
 variable "EcsSG" {
