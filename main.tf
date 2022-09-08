@@ -22,3 +22,7 @@ module "compute" {
     AppSG            = module.security.AppSG
 }
 
+module "containers" {
+    source = "./containers"
+    
+}
