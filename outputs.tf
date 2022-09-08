@@ -2,7 +2,7 @@ output "vpc_id" {
     value = module.network.vpc_id
     description = "The generated vpc id"
 }
-
+/*
 output "nacl_id" {
     value = module.network.nacl_id
     description = "The generated nacl"
@@ -27,3 +27,4 @@ output "default_security_group_id" {
     value = module.network.default_security_group_id
     description = "The default security group id"
 }
+*/
