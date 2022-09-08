@@ -33,3 +33,20 @@ module "containers" {
     AppSubnet_IDs    = module.network.AppSubnet_IDs
     
 }
+        
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "3.67.0"
+    }
+      
+  }
+
+
+provider "aws" {
+  region  = var.region
+//  profile = "tf_deploy"
+  
+}
+
