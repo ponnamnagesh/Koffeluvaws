@@ -33,6 +33,7 @@ module "containers" {
     appC            = module.network.appC
     EcsSG           = module.security.EcsSG
     ecsInstanceProfileId = module.security.EcsInstanceProfileId
+    //key_name         = var.key_name
     // ecsExecutionRoleArn  = module.security.ecsExecutionRoleArn
     // KoffeeLuvTGArn  = module.network.KoffeeLuvTGArn
     // KoffeeLuvAlbName = module.network.KoffeeLuvAlbName
