@@ -1,18 +1,18 @@
 module "network" {
-    source = "./network"
+    source = "./modules/network"
     region = var.region
     project_name = var.project_name
 }
 
 module "security" {
-    source = "./security"
+    source = "./modules/security"
     vpc_id = module.network.vpc_id
     region           = var.region
     project_name     = var.project_name
 }
 
 module "compute" {
-    source           = "./compute"
+    source           = "./modules/compute"
     region           = var.region
     project_name     = var.project_name
     PublicSubnet_IDs = module.network.PublicSubnet_IDs
@@ -25,7 +25,7 @@ module "compute" {
 }
 
 module "containers" {
-    source = "./containers"
+    source = "./modules/containers"
     project_name = var.project_name
     ECSProfile       = module.security.ECSProfile
     ECSSG            = module.security.ECSSG
@@ -38,7 +38,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "3.67.0"
+      //version = "3.67.0"
     }
       
   }
