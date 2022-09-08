@@ -68,3 +68,4 @@ resource "aws_security_group" "EcsSG" {
         protocol    = "TCP"
         security_groups = [aws_security_group.BastionSG.id]
     }
+}
