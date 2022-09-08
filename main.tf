@@ -23,4 +23,10 @@ module "compute" {
 }
 module "containers" {
     source          = "./modules/containers"
+    myLabKeyPair    = module.compute.myLabKeyPair
+    appA            = module.network.appA
+    appB            = module.network.appB
+    appC            = module.network.appC
+    EcsSG           = module.security.EcsSG
+    ecsInstanceProfileId = module.security.EcsInstanceProfileId
 }
