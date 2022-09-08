@@ -4,16 +4,16 @@ provider "aws" {
 }
 
 module "network" {
-    source          = "./network"
+    source          = "./modules/network"
 }
 
 module "security" {
-    source          = "./security"
+    source          = "./modules/security"
     vpcId           = module.network.vpc_id
 }
 
 module "compute" {
-    source          = "./compute"
+    source          = "./modules/compute"
     publicSubnetA   = module.network.publicSubnetA
     publicSubnetB   = module.network.publicSubnetB
     publicSubnetC   = module.network.publicSubnetC
@@ -25,7 +25,7 @@ module "compute" {
 }
 
 module "containers" {
-    source          = "./containers"
+    source          = "./modules/containers"
     // ecsServiceRole  = module.security.ecsServiceRole
     myLabKeyPair    = module.compute.myLabKeyPair
     appA            = module.network.appA
