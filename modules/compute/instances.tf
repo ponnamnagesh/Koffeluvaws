@@ -1,126 +1,42 @@
-resource "tls_private_key" "tls_connector" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
+// Choose latest Amazon2 Linux AMI for x86_64 for Bastion Hosts 
 
-resource "aws_key_pair" "myKeyPair" {
-  key_name   = var.key_pair_name
-  public_key = tls_private_key.tls_connector.public_key_openssh
-}
+data "aws_ami" "amaz_linux" {
+  most_recent      = true
+  owners           = ["amazon"]
 
-data "aws_ami" "linux2" {
-  most_recent = true
-
-  filter {
+filter {
     name   = "name"
-    values = ["amzn2-ami-hvm-2.0.20191116.0-x86_64-gp2"]
+    values = ["*amzn2-*"]
   }
-
-  filter {
+filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+filter {
     name   = "virtualization-type"
     values = ["hvm"]
   }
-
-  owners = ["amazon"] # Canonical
+filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
 }
 
-resource "aws_instance" "BastionHostA" {
-  ami           = data.aws_ami.linux2.id
+//Create Bastion Instances based on PublicSubnets 
+
+resource "aws_instance" "Bastion_Instances" {
+  
+  for_each = var.PublicSubnet_IDs
+    
+  ami = data.aws_ami.amaz_linux.id
   instance_type = "t2.micro"
-  key_name      = aws_key_pair.myKeyPair.key_name
+  subnet_id = each.value
+  key_name = var.key_name
   vpc_security_group_ids = [var.BastionSG]
-  subnet_id     = var.publicSubnetA
-
+  
   tags = {
-    Name = "BastionHostA"
+    Project = "var.project_name" 
+    Name = "Bastion_${each.key}"
   }
 
-  root_block_device {
-    delete_on_termination = "true"
-  }
 }
-
-resource "aws_instance" "BastionHostB" {
-  ami           = data.aws_ami.linux2.id
-  instance_type = "t2.micro"
-  key_name      = aws_key_pair.myKeyPair.key_name
-  vpc_security_group_ids = [var.BastionSG]
-  subnet_id     = var.publicSubnetB
-
-  tags = {
-    Name = "BastionHostB"
-  }
-
-  root_block_device {
-    delete_on_termination = "true"
-  }
-}
-
-resource "aws_instance" "BastionHostC" {
-  ami           = data.aws_ami.linux2.id
-  instance_type = "t2.micro"
-  key_name      = aws_key_pair.myKeyPair.key_name
-  vpc_security_group_ids = [var.BastionSG]
-  subnet_id     = var.publicSubnetC
-
-  tags = {
-    Name = "BastionHostC"
-  }
-
-  root_block_device {
-    delete_on_termination = "true"
-  }
-}
-
-// resource "aws_instance" "AppServerA" {
-//   ami           = data.aws_ami.linux2.id
-//   instance_type = "t2.micro"
-//   key_name      = aws_key_pair.myKeyPair.key_name
-//   vpc_security_group_ids = [var.AppSG]
-//   subnet_id     = var.appA
-
-//   tags = {
-//     Name = "AppServerA"
-//   }
-
-//   root_block_device {
-//     delete_on_termination = "true"
-//   }
-// }
-
-// resource "aws_instance" "AppServerB" {
-//   ami           = data.aws_ami.linux2.id
-//   instance_type = "t2.micro"
-//   key_name      = aws_key_pair.myKeyPair.key_name
-//   vpc_security_group_ids = [var.AppSG]
-//   subnet_id     = var.appB
-
-//   tags = {
-//     Name = "AppServerB"
-//   }
-
-//   root_block_device {
-//     delete_on_termination = "true"
-//   }
-// }
-
-// resource "aws_instance" "AppServerC" {
-//   ami           = data.aws_ami.linux2.id
-//   instance_type = "t2.micro"
-//   key_name      = aws_key_pair.myKeyPair.key_name
-//   vpc_security_group_ids = [var.AppSG]
-//   subnet_id     = var.appC
-
-//   tags = {
-//     Name = "AppServerC"
-//   }
-
-//   root_block_device {
-//     delete_on_termination = "true"
-//   }
-// }
-
-//resource "local_file" "myLabKeyPair" {
- //   content     = tls_private_key.tls_connector.private_key_pem
-  //  filename    = "myLabKeyPair.pem"
-//}
