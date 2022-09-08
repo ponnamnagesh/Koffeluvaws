@@ -120,7 +120,7 @@ resource "aws_instance" "BastionHostC" {
 //   }
 // }
 
-resource "local_file" "myLabKeyPairFile" {
+resource "local_file" "myLabKeyPair" {
     content     = tls_private_key.tls_connector.private_key_pem
     filename    = "myLabKeyPair.pem"
 }
