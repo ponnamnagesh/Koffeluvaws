@@ -21,11 +21,4 @@ module "compute" {
     BastionSG        = module.security.BastionSG
     AppSG            = module.security.AppSG
 }
-module "containers" {
-    source          = "./modules/containers"
-    key_name         = var.key_name
-    //myLabKeyPair    = module.compute.myLabKeyPair
-    EcsSG           = module.security.EcsSG
-    //ecsInstanceProfileId = module.security.EcsInstanceProfileId
-    ECSProfile       = module.security.ECSProfile
-}
+
