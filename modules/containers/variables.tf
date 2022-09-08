@@ -1,23 +1,40 @@
-variable "app_name" {
-  type        = string
-  description = "Application Name"
-  default     = "kluv"
-}
-
-variable "app_environment" {
-  type        = string
-  description = "Application Environment"
-  default     = "QA"
-}
-
-variable "key_name" {
-  type        = string
-  description = "KeyName for precreated SSH Key in AWS"
-  default     = "kluvkey"
+variable "myLabKeyPair" {
+ type = string
+ default     = "kluvkey"
 }
 
 variable "EcsSG" {
-  type        = string
-  description = "security group name"
-  default     = "EcsSG"
+    type = string
 }
+
+variable "appA" {
+    type = string
+}
+
+variable "appB" {
+    type = string
+}
+
+variable "appC" {
+    type = string
+}
+
+variable "ecsInstanceProfileId" {
+    type = string
+}
+
+// variable "ecsExecutionRoleArn" {
+// 	type = string
+// }
+
+// variable "ecsServiceRole" {
+// 	type = string
+// }
+
+// variable "KoffeeLuvAlbName" {
+// 	type = string
+// }
+
+// variable "KoffeeLuvTGArn" {
+// 	type = string
+// }
