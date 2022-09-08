@@ -52,3 +52,19 @@ resource "aws_security_group" "APPSG" {
     Name = "Allow Ingress SSH only from Bastions"
   }
 }
+
+resource "aws_security_group" "EcsSG" {
+    name        = "EcsSG"
+    description = "Allow ssh"
+    vpc_id      = var.vpcId
+    
+    tags = {
+        Name = "EcsSG"
+    }
+
+    ingress {
+        from_port   = "22"
+        to_port     = "22"
+        protocol    = "TCP"
+        security_groups = [aws_security_group.BastionSG.id]
+    }
