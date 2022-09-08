@@ -1,6 +1,6 @@
 variable "key_pair_name" {
     type = string
-    default = "myLabKeyPair"
+    default = "kluvkey"
 }
 
 variable "BastionSG" {
