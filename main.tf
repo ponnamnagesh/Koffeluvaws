@@ -27,7 +27,7 @@ module "compute" {
 module "containers" {
     source          = "./modules/containers"
     // ecsServiceRole  = module.security.ecsServiceRole
-    myLabKeyPair    = module.compute.myLabKeyPair
+    //myLabKeyPair    = module.compute.myLabKeyPair
     appA            = module.network.appA
     appB            = module.network.appB
     appC            = module.network.appC
