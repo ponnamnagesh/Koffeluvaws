@@ -1,24 +1,3 @@
-resource "aws_ecs_cluster" "aws-ecs-cluster" {
-  name = "${var.app_name}-${var.app_environment}-cluster"
-  tags = {
-    Name        = "${var.app_name}-ecs"
-    Environment = var.app_environment
-  }
-}
-//resource "aws_ecs_cluster" "Koffee-Luv-Cluster" {
-   // name = "Koffee-Luv-Cluster"
-//}
-
-resource "aws_cloudwatch_log_group" "log-group" {
-  name = "${var.app_name}-${var.app_environment}-logs"
-
-  tags = {
-    Application = var.app_name
-    Environment = var.app_environment
-  }
-}
-
-// Choose latest Amazon2 Linux AMI for x86_64 
 
 data "aws_ami" "ecs_ami" {
   most_recent = true
@@ -64,7 +43,7 @@ resource "aws_launch_configuration" "ecs-launch-configuration" {
     }
 
     associate_public_ip_address = "false"
-    key_name = var.key_name
+    key_name = var.myLabKeyPair
 
     user_data = <<-EOF
         #!/bin/bash
@@ -75,19 +54,24 @@ resource "aws_launch_configuration" "ecs-launch-configuration" {
     security_groups = [var.EcsSG]
 }
 
-resource "aws_security_group" "EcsSG" {
-    name        = "EcsSG"
-    description = "Allow ssh"
-    vpc_id = module.network.vpc_id
-    
-    tags = {
-        Name = "EcsSG"
-    }
 
-    ingress {
-        from_port   = "22"
-        to_port     = "22"
-        protocol    = "TCP"
-        security_groups = [aws_security_group.BastionSG.id]
+resource "aws_autoscaling_group" "ecs-autoscaling-group" {
+    name = "ecs-autoscaling-group"
+    max_size = "3"
+    min_size = "1"
+    desired_capacity = "1"
+
+    vpc_zone_identifier = [var.appA, var.appB, var.appC]
+    launch_configuration = aws_launch_configuration.ecs-launch-configuration.name
+    health_check_type = "ELB"
+
+    tag {
+        key = "Name"
+        value = "Koffee-Luv-ECS"
+        propagate_at_launch = true
     }
+}
+
+resource "aws_ecs_cluster" "Koffee-Luv-Cluster" {
+    name = "Koffee-Luv-Cluster"
 }
