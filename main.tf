@@ -1,28 +1,40 @@
+provider "aws" {
+    region          = var.region
+
+}
+
 module "network" {
-    source = "./modules/network"
-    region = var.region
-    project_name = var.project_name
+    source          = "./network"
 }
 
 module "security" {
-    source = "./modules/security"
-    vpc_id = module.network.vpc_id
-    region           = var.region
-    project_name     = var.project_name
+    source          = "./security"
+    vpcId           = module.network.vpc_id
 }
 
 module "compute" {
-    source           = "./modules/compute"
-    region           = var.region
-    project_name     = var.project_name
-    PublicSubnet_IDs = module.network.PublicSubnet_IDs
-    AppSubnet_IDs    = module.network.AppSubnet_IDs
-    key_name         = var.key_name
-    BastionSG        = module.security.BastionSG
-    AppSG            = module.security.AppSG
+    source          = "./compute"
+    publicSubnetA   = module.network.publicSubnetA
+    publicSubnetB   = module.network.publicSubnetB
+    publicSubnetC   = module.network.publicSubnetC
+    appA            = module.network.appA
+    appB            = module.network.appB
+    appC            = module.network.appC
+    BastionSG       = module.security.BastionSG
+    AppSG           = module.security.AppSG
 }
 
 module "containers" {
-    source = "./modules/containers"
-    
+    source          = "./containers"
+    // ecsServiceRole  = module.security.ecsServiceRole
+    myLabKeyPair    = module.compute.myLabKeyPair
+    appA            = module.network.appA
+    appB            = module.network.appB
+    appC            = module.network.appC
+    EcsSG           = module.security.EcsSG
+    ecsInstanceProfileId = module.security.EcsInstanceProfileId
+    // ecsExecutionRoleArn  = module.security.ecsExecutionRoleArn
+    // KoffeeLuvTGArn  = module.network.KoffeeLuvTGArn
+    // KoffeeLuvAlbName = module.network.KoffeeLuvAlbName
 }
+
