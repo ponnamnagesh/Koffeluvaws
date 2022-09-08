@@ -1,76 +1,105 @@
-data "aws_ami" "ecs_ami" {
-  most_recent = true
+// Choose latest Amazon2 ECS AMI for ECS Cluster 
 
-  filter {
+data "aws_ami" "ecs_linux" {
+  most_recent      = true
+  owners           = ["amazon"]
+
+filter {
     name   = "name"
-    values = ["amzn2-ami-ecs-*"]
+    values = ["*ecs-*"]
   }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
+filter {
     name   = "root-device-type"
     values = ["ebs"]
   }
-
-  owners = ["amazon"] # Canonical
+filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
 }
 
-resource "aws_launch_configuration" "ecs-launch-configuration" {
-    name = "ecs-launch-configuration"
-    // image_id = "ami-07a63940735aebd38"
-    image_id = data.aws_ami.ecs_ami.id
-    instance_type = "t2.micro"
-    iam_instance_profile = var.ecsInstanceProfileId
+## Create The ECR Private Repo and a Policy 
 
-    root_block_device {
-        volume_type = "gp2"
-        volume_size = 50
-        delete_on_termination = true
-    }
+resource "aws_ecr_repository" "koffeeluvrepo" {
+  name                 = "${var.project_name}repo"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+
+ tags = {
+    Project = "var.project_name" 
+    
+ }
+}
+/*
+resource "aws_ecr_repository_policy" "koffeeluv-repo-policy" {
+  repository = aws_ecr_repository.koffeeluvrepo.name
+  policy     = <<EOF
+  {
+    "Version": "2008-10-17",
+    "Statement": [
+      {
+        "Sid": "adds full ecr access to the Koffeeluv repository",
+        "Effect": "Allow",
+        "Principal": "*",
+        "Action": [
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:BatchGetImage",
+          "ecr:CompleteLayerUpload",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:GetLifecyclePolicy",
+          "ecr:InitiateLayerUpload",
+          "ecr:PutImage",
+          "ecr:UploadLayerPart"
+        ]
+      }
+    ]
+  }
+  EOF
+}
+*/
+
+## ECS Cluster REsources 
+
+resource "aws_ecs_cluster" "aws-ecs-cluster" {
+  name = "Koffee-Luv-Cluster"
+  
+  tags = {
+    Name        = "Koffee-Luv-Cluster"
+  }
+}
+
+// Launch Config && ASG && including IAM Role Definiiton
+
+
+resource "aws_launch_configuration" "ecs_launchconf" {
+    image_id             = data.aws_ami.ecs_linux.id
+    iam_instance_profile = var.ECSProfile
+    security_groups      = [var.ECSSG]
+    user_data            = "#!/bin/bash\necho ECS_CLUSTER=Koffee-Luv-Cluster >> /etc/ecs/ecs.config;\necho ECS_BACKEND_HOST= >> /etc/ecs/ecs.config;"
+    instance_type        = "t2.micro"
+    key_name             = var.key_name
 
     lifecycle {
         create_before_destroy = true
     }
+}
 
-    associate_public_ip_address = "false"
-    key_name = var.myLabKeyPair
-
-    user_data = <<-EOF
-        #!/bin/bash
-        echo ECS_CLUSTER=Koffee-Luv-Cluster >> /etc/ecs/ecs.config;
-        echo ECS_BACKEND_HOST= >> /etc/ecs/ecs.config;
-        EOF
-    
-    security_groups = [var.EcsSG]
+resource "aws_autoscaling_group" "ecs_asg" {
+    name                      = "${var.project_name}-asg"
+    vpc_zone_identifier       = [for r in var.AppSubnet_IDs : r]
+    launch_configuration      = aws_launch_configuration.ecs_launchconf.name
+    desired_capacity          = 1
+    min_size                  = 1
+    max_size                  = 3
+    health_check_grace_period = 300
+    health_check_type         = "EC2"
 }
 
 
-resource "aws_autoscaling_group" "ecs-autoscaling-group" {
-    name = "ecs-autoscaling-group"
-    max_size = "3"
-    min_size = "1"
-    desired_capacity = "1"
-
-    vpc_zone_identifier = [var.appA, var.appB, var.appC]
-    launch_configuration = aws_launch_configuration.ecs-launch-configuration.name
-    health_check_type = "ELB"
-
-    tag {
-        key = "Name"
-        value = "Koffee-Luv-ECS"
-        propagate_at_launch = true
-    }
-}
-
-resource "aws_ecs_cluster" "Koffee-Luv-Cluster" {
-    name = "Koffee-Luv-Cluster"
-}
