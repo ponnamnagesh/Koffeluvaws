@@ -42,6 +42,7 @@ terraform {
     }
       
   }
+}
 
 
 provider "aws" {
@@ -49,5 +50,5 @@ provider "aws" {
 //  profile = "tf_deploy"
   
 }
-}
+
 
