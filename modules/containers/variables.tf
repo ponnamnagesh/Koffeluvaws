@@ -1,40 +1,22 @@
-variable "myLabKeyPair" {
-    type = string
-    default = "myLabKeyPair"
+variable "project_name" {
+  type        = string
+  default     = "liveproject_TAWS"
+  description = "Name for the live_project"
 }
-
-variable "EcsSG" {
-    type = string
+variable "ECSProfile" {
+  type        = string
+  description = "ECS Instance Profile"
 }
-
-variable "appA" {
-    type = string
+variable "ECSSG" {
+  type        = string
+  description = "Sec Group ECS EC2 Nodes"
 }
-
-variable "appB" {
-    type = string
+variable "key_name" {
+  type        = string
+  description = "KeyName for precreated SSH Key in AWS"
 }
-
-variable "appC" {
-    type = string
+variable "AppSubnet_IDs" {
+  type        = map(string)
+  
+  description = "Map of App Subnet IDs"
 }
-
-variable "ecsInstanceProfileId" {
-    type = string
-}
-
-// variable "ecsExecutionRoleArn" {
-// 	type = string
-// }
-
-// variable "ecsServiceRole" {
-// 	type = string
-// }
-
-// variable "KoffeeLuvAlbName" {
-// 	type = string
-// }
-
-// variable "KoffeeLuvTGArn" {
-// 	type = string
-// }
