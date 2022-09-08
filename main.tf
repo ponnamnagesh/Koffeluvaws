@@ -23,6 +23,6 @@ module "compute" {
 }
 
 module "containers" {
-    source = "./containers"
+    source = "./modules/containers"
     
 }
