@@ -26,7 +26,7 @@ module "compute" {
 
 module "containers" {
     source = "./modules/containers"
-    egion = var.region
+    region = var.region
     project_name = var.project_name
     ECSProfile       = module.security.ECSProfile
     ECSSG            = module.security.ECSSG
