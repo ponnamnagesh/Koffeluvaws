@@ -26,11 +26,16 @@ module "compute" {
 
 module "containers" {
     source = "./modules/containers"
+    egion = var.region
     project_name = var.project_name
     ECSProfile       = module.security.ECSProfile
     ECSSG            = module.security.ECSSG
+    ALBSG            = module.security.ALBSG
     key_name         = var.key_name
     AppSubnet_IDs    = module.network.AppSubnet_IDs
+    PublicSubnet_IDs = module.network.PublicSubnet_IDs
+    ecsTaskExecutionRolearn = module.security.ecsTaskExecutionRolearn
+    vpc_id = module.network.vpc_id
     
 }
         
@@ -46,9 +51,7 @@ terraform {
 
 
 provider "aws" {
-  region  = var.region
-//  profile = "tf_deploy"
-  
+  region  = var.region  
 }
 
 
