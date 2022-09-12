@@ -21,6 +21,12 @@ filter {
     values = ["x86_64"]
   }
 }
+  
+  ## Get AWS Account_ID:
+
+data "aws_caller_identity" "awsaccount" {}
+  
+  /*
 
 ## Create The ECR Private Repo and a Policy 
 
@@ -37,7 +43,7 @@ resource "aws_ecr_repository" "koffeeluvrepo" {
     
  }
 }
-/*
+  
 resource "aws_ecr_repository_policy" "koffeeluv-repo-policy" {
   repository = aws_ecr_repository.koffeeluvrepo.name
   policy     = <<EOF
@@ -102,4 +108,47 @@ resource "aws_autoscaling_group" "ecs_asg" {
     health_check_type         = "EC2"
 }
 
+  # ECS Task Definiiton
+
+resource "aws_ecs_task_definition" "task_definition" {
+  family             = "${var.project_name}-Website"
+  execution_role_arn = var.ecsTaskExecutionRolearn 
+  memory             = 128
+  
+  container_definitions = jsonencode([
+    {
+      name      = "${var.project_name}-Website"
+      image     = "${data.aws_caller_identity.awsaccount.account_id}.dkr.ecr.${var.region}.amazonaws.com/koffeeluvrepo:latest"
+      essential = true
+      portMappings = [
+        {
+          
+          containerPort = 8000
+         
+        }
+      ]
+    }
+  ])
+
+  tags = {
+      ProjectName = var.project_name
+  }
+
+}
+  # ECS Service
+
+resource "aws_ecs_service" "koffeeluv" {
+  name            = "${var.project_name}-Website"
+  cluster         = aws_ecs_cluster.ecs-cluster.id
+  launch_type     = "EC2"
+  task_definition = aws_ecs_task_definition.task_definition.arn
+  desired_count   = 2
+
+  load_balancer {
+    target_group_arn = aws_alb_target_group.main.arn
+    container_name   = aws_ecs_task_definition.task_definition.family
+    container_port   = 8000
+  }
+
+}
 
