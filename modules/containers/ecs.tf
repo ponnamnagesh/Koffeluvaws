@@ -144,7 +144,7 @@ resource "aws_ecs_service" "koffeeluv" {
   desired_count   = 2
 
   load_balancer {
-    target_group_arn = aws_alb_target_group.main.arn
+    //target_group_arn = aws_alb_target_group.main.arn
     container_name   = aws_ecs_task_definition.task_definition.family
     container_port   = 8000
   }
