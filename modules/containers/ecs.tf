@@ -134,6 +134,15 @@ resource "aws_ecs_task_definition" "task_definition" {
 
 }
 
+ #AWS lb taget group
+  resource "aws_lb_target_group" "main" {
+  name        = "${var.project_name}-lbtargetgroup"
+  target_type = "alb"
+  port        = 80
+  protocol    = "TCP"
+  vpc_id      = aws_vpc.main.id
+}
+  
 # ECS Service
 
 resource "aws_ecs_service" "koffeeluv" {
@@ -144,12 +153,10 @@ resource "aws_ecs_service" "koffeeluv" {
   desired_count   = 2
 
   load_balancer {
-    //target_group_arn = aws_alb_target_group.main.arn
+    target_group_arn = aws_alb_target_group.main.arn
     container_name   = aws_ecs_task_definition.task_definition.family
     container_port   = 8000
   }
 
 }
-
-
 
