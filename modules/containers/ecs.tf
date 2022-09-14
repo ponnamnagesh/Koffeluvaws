@@ -6,7 +6,7 @@ data "aws_ami" "ecs_linux" {
 
 filter {
     name   = "name"
-    values = ["*ecs-*"]
+    values = ["al2022-ami*ecs-*"]
   }
 filter {
     name   = "root-device-type"
@@ -21,13 +21,11 @@ filter {
     values = ["x86_64"]
   }
 }
-  
-  ## Get AWS Account_ID:
+
+## Get AWS Account_ID:
 
 data "aws_caller_identity" "awsaccount" {}
-  
-  /*
-
+/*
 ## Create The ECR Private Repo and a Policy 
 
 resource "aws_ecr_repository" "koffeeluvrepo" {
@@ -43,7 +41,7 @@ resource "aws_ecr_repository" "koffeeluvrepo" {
     
  }
 }
-  
+
 resource "aws_ecr_repository_policy" "koffeeluv-repo-policy" {
   repository = aws_ecr_repository.koffeeluvrepo.name
   policy     = <<EOF
@@ -71,9 +69,9 @@ resource "aws_ecr_repository_policy" "koffeeluv-repo-policy" {
 }
 */
 
-## ECS Cluster REsources 
+## ECS Cluster Resources 
 
-resource "aws_ecs_cluster" "aws-ecs-cluster" {
+resource "aws_ecs_cluster" "ecs-cluster" {
   name = "Koffee-Luv-Cluster"
   
   tags = {
@@ -108,7 +106,7 @@ resource "aws_autoscaling_group" "ecs_asg" {
     health_check_type         = "EC2"
 }
 
-  # ECS Task Definiiton
+# ECS Task Definiiton
 
 resource "aws_ecs_task_definition" "task_definition" {
   family             = "${var.project_name}-Website"
@@ -135,7 +133,8 @@ resource "aws_ecs_task_definition" "task_definition" {
   }
 
 }
-  # ECS Service
+
+# ECS Service
 
 resource "aws_ecs_service" "koffeeluv" {
   name            = "${var.project_name}-Website"
@@ -151,4 +150,6 @@ resource "aws_ecs_service" "koffeeluv" {
   }
 
 }
+
+
 
