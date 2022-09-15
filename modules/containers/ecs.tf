@@ -141,8 +141,8 @@ resource "aws_ecs_task_definition" "task_definition" {
   target_type = "alb"
   port        = 80
   protocol    = "TCP"
-  vpc_id      = aws_vpc.main.id
-  //vpc_id = aws_vpc.mainvpc.id
+  //vpc_id      = aws_vpc.main.id
+  vpc_id = aws_vpc.mainvpc.id
 }
   
 # ECS Service
