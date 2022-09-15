@@ -134,17 +134,7 @@ resource "aws_ecs_task_definition" "task_definition" {
 
 }
 
- #AWS lb taget group
-  /*
- resource "aws_lb_target_group" "main" {
-  name        = "${var.project_name}-lbtargetgroup"
-  target_type = "alb"
-  port        = 80
-  protocol    = "TCP"
-  //vpc_id      = aws_vpc.main.id
-  vpc_id = aws_vpc.mainvpc.id
-}
-  */
+ 
   
 # ECS Service
 
